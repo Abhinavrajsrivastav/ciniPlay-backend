@@ -1,0 +1,27 @@
+spring:
+  application.name: cineplay-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/cineplay}
+    username: ${DB_USERNAME:cineplay}
+    password: ${DB_PASSWORD:cineplay}
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: validate   # schema is owned by Flyway, never by Hibernate
+    properties.hibernate.jdbc.time_zone: UTC
+  flyway.enabled: true
+  data.redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  autoconfigure.exclude:
+    - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+server.port: ${SERVER_PORT:8080}
+management:
+  endpoints.web.exposure.include: health,info,metrics,prometheus
+  endpoint.health.probes.enabled: true
+  health.redis.enabled: ${REDIS_HEALTH_ENABLED:false}   # Redis is not used until Phase 6
+springdoc:
+  swagger-ui.path: /swagger-ui.html
+cineplay:
+  cors.allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
